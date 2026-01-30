@@ -1,11 +1,12 @@
 package top.ourisland.litemacro.config;
 
-import top.ourisland.litemacro.config.model.MacroSpec;
-import top.ourisland.litemacro.config.model.RootConfig;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.slf4j.Logger;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import top.ourisland.litemacro.config.model.MacroSpec;
+import top.ourisland.litemacro.config.model.RootConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,17 +50,22 @@ public class ConfigManager {
         if (!Files.exists(file)) {
             writeDefault(file);
         }
+
+        LoaderOptions options = new LoaderOptions();
+        Yaml yaml = new Yaml(new Constructor(RootConfig.class, options));
+
         try (InputStream in = Files.newInputStream(file)) {
-            Yaml yaml = new Yaml(new Constructor(RootConfig.class));
-            RootConfig loaded = yaml.load(in);
+            RootConfig loaded = yaml.loadAs(in, RootConfig.class);
+
             if (loaded == null || loaded.getMacros() == null) {
                 root = new RootConfig();
                 root.setMacros(Collections.emptyMap());
             } else {
                 root = loaded;
             }
+
             for (Map.Entry<String, MacroSpec> e : root.getMacros().entrySet()) {
-                if (e.getValue().getActions() == null || e.getValue().getActions().isEmpty()) {
+                if (e.getValue() == null || e.getValue().getActions() == null || e.getValue().getActions().isEmpty()) {
                     logger.warn("Macro '{}' has no actions.", e.getKey());
                 }
             }
