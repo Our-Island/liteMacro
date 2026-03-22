@@ -1,5 +1,7 @@
 <div align="center">
 
+<img height="256" alt="litemacro-icon" src="https://github.com/user-attachments/assets/83d6ede5-0054-4ada-add6-dca87080a60a" />
+
 # liteMacro
 
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FOur-Island%2FliteMacro&labelColor=%23444444&countColor=%23f24822&style=flat-square&labelStyle=none)](https://visitorbadge.io/status?path=https://github.com/Our-Island/liteMacro/)
